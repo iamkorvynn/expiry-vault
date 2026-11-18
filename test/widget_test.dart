@@ -32,6 +32,10 @@ void main() {
 
   testWidgets('Add document form shows all required fields',
       (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(800, 2200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(_wrap(const AddEditScreen()));
     expect(find.text('Add document'), findsOneWidget);
     expect(find.text('Document type'), findsOneWidget);
@@ -39,9 +43,7 @@ void main() {
     expect(find.text('Document number'), findsOneWidget);
     expect(find.text('Issuing authority (optional)'), findsOneWidget);
     expect(find.text('Expiry date'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Add photo'), 200);
     expect(find.text('Add photo'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Save document'), 200);
     expect(find.text('Save document'), findsOneWidget);
     // Validation: saving with empty fields shows errors, not a crash.
     await tester.tap(find.text('Save document'));
@@ -79,6 +81,10 @@ void main() {
 
   testWidgets('Edit form is pre-filled with the existing document',
       (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(800, 2200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
     final doc = ExpiryDocument(
       id: 2,
       type: DocumentType.passport,
@@ -92,7 +98,6 @@ void main() {
     expect(find.text('My Passport'), findsOneWidget);
     expect(find.text('A1234567'), findsOneWidget);
     expect(find.text('Govt of India'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Save changes'), 200);
     expect(find.text('Save changes'), findsOneWidget);
   });
 }
